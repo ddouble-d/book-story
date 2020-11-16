@@ -1,10 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose')
 const dotenv = require('dotenv');
 const path = require('path')
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const passport = require('passport')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 const connectDB = require('./config/db');
 
 // Load config
@@ -22,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Handlebars
+// Handlebars view engine
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
@@ -31,7 +33,8 @@ app.use(
   session({
     secret: "keyboard cat",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
 
