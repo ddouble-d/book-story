@@ -1,3 +1,3 @@
 # book-story
--Build with node.js &amp; express
--Using Handlebars template engine
+-  Build with node.js &amp; express
+-  Using Handlebars template engine
